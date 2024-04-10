@@ -1,0 +1,144 @@
+#include <math.h>
+#include <iostream>
+#include <stdlib.h>
+#include <string>
+
+
+using namespace std;
+
+//Variables Globales
+int opcionElegida = 0;
+
+
+
+//Definicio de funciones
+void mostrarMenu();
+void SeleccionarCaso(int opcionElegida);
+void Promedio();
+void RegistroEmpleados();
+
+
+int main() {
+	system("color f0");
+
+	do {
+		mostrarMenu();
+		cout << "Elija una opcion.\n";
+		cin >> opcionElegida;
+		SeleccionarCaso(opcionElegida);
+		system("pause");
+		system("cls");
+	} while (opcionElegida != 0);
+}
+
+
+//Desarrollo de funciones
+void mostrarMenu() {
+	cout << "---------------Menu---------------\n";
+	cout << "0 - Salir del sistema.\n";
+	cout << "1 - Promedio de numeros.\n";
+	cout << "2 - Registro Empleados.\n";
+	cout << "----------------------------------\n";
+}
+
+void SeleccionarCaso(int opcionElegida) {
+	switch (opcionElegida) {
+	case 0:
+		cout << "Saliendo del sistema...\n";
+		break;
+	case 1:
+		Promedio();
+		break;
+	case 2:
+		RegistroEmpleados();
+		break;
+	default:
+		cout << "Opcion no valida.\n";
+	}
+}
+
+void Promedio() {
+	int Cantidad = 0;
+	cout << "Ingrese la cantidad de numeros que desea evaluar.\n";
+	cin >> Cantidad;
+
+	int *Vector=(int*)malloc(sizeof(int)+Cantidad);
+	double Suma = 0, Prom = 0,Porcentaje=0;
+
+	for (int i = 0; i < Cantidad; i++) {
+		cout << "Ingrese el valor numero " << i + 1<<"\n";
+		cin >> Vector[i];
+		if (Vector[i]<220) {
+			Porcentaje = Porcentaje + 1;
+		}
+	}
+
+	for (int i = 0; i < Cantidad; i++) {
+		Suma = Suma + Vector[i];
+	}
+	Prom = Suma / Cantidad;
+	Porcentaje = (Porcentaje * 100) / Cantidad;
+
+	cout << "El promedio de los numeros ingresados es: " << Prom<<"\n";
+	cout << "El porcentaje de los numeros que son menores a 220 es: " << Porcentaje << "%\n";
+}
+
+void RegistroEmpleados() {
+	int Cedula, sexo, anioNacimiento, estrato, salario, PromEdad, SumEdad=0, edad, THombres=0;
+	double recaudo, TRecaudo=0, PMujeres=0;
+	string	Nombre;
+
+	cout << "Se procedera a realizar el registro de 5 empleados.\n";
+	system("pause");
+
+	for (int i = 0; i < 5; i++) {
+		system("cls");
+		cout << "Ingrese la cedula del empleado numero: "<<i+1<<"\n";
+		cin >> Cedula;
+		cout << "Ingrese el nombre del empleado numero: " << i + 1 << "\n";
+		cin >> Nombre;
+		cout << "Ingrese el sexo del empleado numero: " << i + 1 << " (1-Hombre / 2- Mujer)\n";
+		cin >> sexo;
+		while ((sexo != 1) && (sexo != 2))
+		{
+			if ((sexo == 1) || (sexo == 2)) break;
+			cout << "Dato incorrecto, ingrese 1 o 2: ";
+			cin >> sexo;
+		}
+		cout << "Ingrese el anio de Nacimiento del empleado numero: " << i + 1 << "\n";
+		cin >> anioNacimiento;
+		cout << "Ingrese el estrato del empleado numero: " << i + 1 << "(1-6)\n";
+		cin >> estrato;
+		while ((estrato < 1) || (estrato > 6))
+		{
+			if ((estrato >= 1) && (estrato <= 6)) break;
+			cout << "Dato por fuera del rango, ingrese un numero del 1 al 6: ";
+			cin >> estrato;
+		}
+		cout << "Ingrese el salario del empleado numero: " << i + 1 << "\n";
+		cin >> salario;
+		edad = (2020 - anioNacimiento);
+		SumEdad = SumEdad + edad;
+		recaudo = salario - (salario * 0.04);
+		TRecaudo = TRecaudo + recaudo;
+
+		if (sexo == 1) {
+			if (edad >= 27 && edad <= 35) {
+				if (estrato == 3 || estrato == 4) {
+					THombres = THombres + 1;
+				}
+			}
+		}
+
+		if (sexo == 2 && estrato==4) {
+			PMujeres=PMujeres+1;
+		}
+	}
+	PromEdad = SumEdad / 5;
+	PMujeres = (PMujeres * 100) / 5;
+	cout << "El promedio de edades de los empleados es de: "<<PromEdad<<"\n";
+	cout << "El total recaudado del total de salarios netos es de: " << TRecaudo << "\n";
+	cout << "El total de hombre entre 27 y 35 anios con estrato 3 o 4 es de: " << THombres << "\n";
+	cout << "El porcentaje de mujeres de estrato 4 es de: " << PMujeres << "\n";
+}
+
